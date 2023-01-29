@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import subprocess as sp
+import sys
 
 from pathlib import Path
 
@@ -18,7 +19,7 @@ def _create_files_table(con: sqlite3.Connection) -> None:
     except:
         pass
 
-def check(file: str) -> None:
+def _check(file: str, stdout: int=-1, stderr: int=-1) -> None:
     path = Path(file).resolve(strict=True)
     try:
         connection = sqlite3.connect(db_path)
@@ -35,14 +36,24 @@ def check(file: str) -> None:
     if row is not None and row[1] >= mtime:
         return
 
-    path = Path(file).resolve(strict=True)
-    #mypy_path = sp.check_output('_pyinclude', encoding='utf-8')
-    env = dict(os.environ)
-    try:
-        sp.check_call(['mypy', file, '--strict'])#, env=env.update({'MYPYPATH': mypy_path}))
-    except sp.CalledProcessError as err:
-        exit(1)
+    if stdout < 0:
+        stdout = sys.stdout.fileno()
+    if stderr < 0:
+        stderr = sys.stderr.fileno()
+
+    # Throws sp.CalledProcessError on failed check
+    sp.check_call(['mypy', file, '--strict'], stdout=stdout, stderr=stderr)
 
     connection.execute("INSERT OR REPLACE INTO files (name, timestamp) VALUES (?, ?);", (str(path), mtime))
     connection.commit()
     connection.close()
+
+def check(file: str) -> None:
+    try:
+        _check(file)
+    except sp.CalledProcessError as err:
+        exit(1)
+
+def clean() -> None:
+    if db_path.exists():
+        os.remove(db_path)
