@@ -1,3 +1,5 @@
 #!/bin/sh
 
-./tests/ut_basic.py -f
+for test in tests/ut_*.py ; do
+    python3 "$test" -f
+done
