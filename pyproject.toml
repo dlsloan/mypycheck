@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mypycheck"
-version = "0.0.2"
+version = "0.0.5"
 authors = [
     { name="David Sloan", email="delus.dlsloan@gmail.com" },
 ]
@@ -12,3 +16,7 @@ classifiers = [
     "License :: Other/Proprietary License",
     "Operating System :: POSIX :: Linux",
 ]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mypycheck*"]
+
