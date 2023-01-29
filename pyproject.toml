@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mypycheck"
-version = "0.0.6"
+version = "0.0.7"
 authors = [
     { name="David Sloan", email="delus.dlsloan@gmail.com" },
 ]
@@ -16,6 +16,7 @@ classifiers = [
     "License :: Other/Proprietary License",
     "Operating System :: POSIX :: Linux",
 ]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["mypycheck*"]
