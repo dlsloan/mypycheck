@@ -14,7 +14,7 @@ lib_dir = test_dir.parent / 'src'
 test_src_dir = test_dir / 'checker_files'
 
 sys.path.insert(0, str(lib_dir))
-import mypycheck
+import mypycheck # type: ignore
 
 class BasicTests(unittest.TestCase):
     def setUp(self) -> None:
