@@ -57,3 +57,17 @@ def check(file: str) -> None:
 def clean() -> None:
     if db_path.exists():
         os.remove(db_path)
+
+def check_main() -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('target')
+    parser.add_argument('--clean', action='store_true')
+    args = parser.parse_args()
+
+    if args.clean:
+        clean()
+
+    check(args.target)
+
