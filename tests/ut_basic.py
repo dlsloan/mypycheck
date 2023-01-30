@@ -6,7 +6,6 @@ import sys
 import tempfile
 import time
 
-from importlib.machinery import SourceFileLoader
 from pathlib import Path
 
 test_dir = Path(__file__).resolve().parent

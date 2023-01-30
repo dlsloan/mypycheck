@@ -50,6 +50,8 @@ def _check(file: str, stdout: int=-1, stderr: int=-1) -> None:
 
 def check(file: str) -> None:
     try:
+        if '/site-packages/' in str(file):
+            return
         _check(file)
     except sp.CalledProcessError as err:
         exit(1)
